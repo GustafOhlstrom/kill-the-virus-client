@@ -1,26 +1,18 @@
+import './main.scss'
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import PlayingField from './components/playingField/PlayingField'
+import Scoreboard from './components/scoreboard/Scoreboard'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<main id="app">
+			<h1 className="title">Kill The Virus</h1>
+			<div className="flex-container">
+				<PlayingField />
+				<Scoreboard />
+			</div>
+		</main>
+	);
 }
 
 export default App;

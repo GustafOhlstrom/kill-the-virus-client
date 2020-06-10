@@ -1,0 +1,53 @@
+@import '../../variables.scss';
+
+#scoreboard {
+    color: $color1;
+    background-color: #222;
+    width: 29%;
+    max-height: 600px;
+
+    border-radius: 0.25rem;
+
+    h2 {
+        padding: 1rem;
+    }
+
+    .timers {
+        display: flex;
+        justify-content: space-evenly;
+        margin: 1rem 0;
+
+        .timer {
+            border: 1px solid $borderColor1;
+            border-radius: 0.25rem;
+            
+            p {
+                padding: 0.5rem 1rem;
+                font-size: 1.5rem;
+                font-weight: 500;
+            }
+
+            .timer-name {
+                border-bottom: 1px solid $borderColor1;
+            }
+        }
+    }
+
+    .scores {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 1rem 0;
+    }
+
+    table {
+        width: 100%;
+        padding: 8px;
+
+        th,
+        td {
+            padding: 0.25rem;
+            border: 1px solid $borderColor1;
+        }
+
+    }
+}
