@@ -13,8 +13,7 @@ class Lobby extends React.Component {
         
         const { username } = this.state
         this.props.socket.emit('user-register', username, (status) => {
-            console.log(`Server acknowledged the registration os user: ${username}`, status);
-            
+            console.log(`Server acknowledged the registration of user: ${username}`);
             this.props.registerUser(username)
 		});
     }
