@@ -12,9 +12,9 @@ class Lobby extends React.Component {
         e.preventDefault()
         
         const { username } = this.state
-        this.props.socket.emit('user-register', username, (status) => {
+        this.props.socket.emit('user-register', username, user => {
             console.log(`Server acknowledged the registration of user: ${username}`);
-            this.props.registerUser(username)
+            this.props.registerUser(user)
 		});
     }
 
