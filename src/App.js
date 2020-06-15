@@ -13,11 +13,12 @@ class App extends React.Component{
 	state = {
 		socket: null,
 		user: null,				
-		opponent: null,			
+		opponent: null,	
+		winner: null,
+		scores: null,		
 		room: null,
 
 		countdown: null,
-        countdownActive: false,
         newGame: true,
 		virusIcon: null,
 
@@ -25,11 +26,19 @@ class App extends React.Component{
 
 		userTimer: "00:00.000",
 		opponentTimer: "00:00.000",
+		
+		roundNr: 0,
 		rounds: [
-			// {
-			// 	userId: "time in milliseconds",
-			// 	opponentId: "time in milliseconds"
-			// },
+			{ 1: "", 2: "" },
+			{ 1: "", 2: "" },
+			{ 1: "", 2: "" },
+			{ 1: "", 2: "" },
+			{ 1: "", 2: "" },
+			{ 1: "", 2: "" },
+			{ 1: "", 2: "" },
+			{ 1: "", 2: "" },
+			{ 1: "", 2: "" },
+			{ 1: "", 2: "" },
 		]
 	}
 
@@ -43,23 +52,43 @@ class App extends React.Component{
 
 		// When two user are connected save room name and display countdown for next round
 		socket.on('opponent-found', data => {
+			const { user } = this.state
 			console.log(`Server acknowledged two players ${Object.keys(data)}, game is stating:`)
 			console.log(Object.entries(data.players))
 			
 			let opponent;
 			Object.keys(data.players).forEach(id => {
-				if(id !== this.state.user.id) opponent = { id, name: data.players[id]}
+				if(id !== user.id) opponent = { id, name: data.players[id]}
 			})
 
-			this.setState({ opponent, room: data.name, countdownActive: true })
+			let rounds = []
+			for(let i = 0; i < 10; i++) {
+				rounds.push({
+					[user.id]: "",
+					[opponent.id]: ""
+				})
+			}
+
+			this.setState({ opponent, room: data.name, rounds })
 		})
+
+		// Update for new round
+		socket.on('newRoundNr', roundNr => ( 
+			this.setState({ 
+				roundWinner: false,
+				countdown: null, 
+				virusIcon: null, 
+				virusFound: false, 
+				roundNr 
+			}))
+		)
 
 		// Display each countdown number from server
 		socket.on('countdown', countdown => {
 			console.log(countdown)
 			countdown === 0 
-				? this.setState({ countdownActive: false })
-				: this.setState({ countdown })
+				? this.setState({ countdown: null })
+				: this.setState({ countdown, })
 		})
 
 		// Display virus icon with coordinates from server and save start time
@@ -70,29 +99,29 @@ class App extends React.Component{
 			
 			// Start timers
 			const timerId = setInterval(() => {
-				const { rounds, user, opponent } = this.state
-				const round = rounds[Object.keys(rounds).length - 1]
+				const { roundNr, rounds, user, opponent } = this.state
+				const round = rounds[roundNr]
 				
 				const time = this.getTimeString(new Date() - startTime)
 
+				const playerRound = round[user.id]
+				const opponentRound = round[opponent.id]
+
 				// Update both user and opponent
-				if(!round) {
+				if(!playerRound && !opponentRound) {
 					this.setState({ userTimer: time, opponentTimer: time })
-				} else {
-					const playerRound = round[user.id]
-					const opponentRound = round[opponent.id]
-					// Update only user 
-					if(!playerRound) {
-						this.setState({ userTimer: time  })
-					// Update only opponent
-					} else if(!opponentRound) {
-						this.setState({ opponentTimer: time  })
-					// Update only opponent
-					} else {
-						clearInterval(timerId)
-					}
 				}
-				
+				// Update only user 
+				if(!playerRound) {
+					this.setState({ userTimer: time  })
+				// Update only opponent
+				} else if(!opponentRound) {
+					this.setState({ opponentTimer: time  })
+				// Update only opponent
+				} else {
+					clearInterval(timerId)
+				}
+			
 			}, 10);
 		})
 
@@ -111,12 +140,31 @@ class App extends React.Component{
 				rounds[round] = formatedTime;
 
 				// Update rounds and each timer
-				let newStates = { rounds }
+				let newStates = { rounds, round }
 				if(rounds[round][user.id]) newStates.userTimer = rounds[round][user.id]
 				if(rounds[round][opponent.id]) newStates.opponentTimer = rounds[round][opponent.id]
 
 				return newStates
 			})
+		})
+
+		// Display round winner
+		socket.on('round-winner', data => {
+			const { user, opponent } = this.state
+			const { winner, scores } = data
+			winner === user.id
+				? this.setState({ roundWinner: user.name, scores })
+				: this.setState({ roundWinner: opponent.name, scores })
+		})
+
+		// Display winner 
+		socket.on('winner', winner => {
+			const { user, opponent } = this.state
+			winner === "Draw"
+				? this.setState({ winner })		
+				: winner === user.id
+					? this.setState({ winner: "Victory" })
+					: this.setState({ winner: "Defeat" })
 		})
 
 		this.setState({ socket })
@@ -158,7 +206,7 @@ class App extends React.Component{
 	)		
 
 	render() {
-		const { user, opponent, socket, countdown, countdownActive, virusIcon, userTimer, opponentTimer, rounds } = this.state
+		const { user, opponent, winner, scores, socket, countdown,  virusIcon, userTimer, opponentTimer, rounds, roundNr, roundWinner } = this.state
 
 		return (
 			<main id="app">
@@ -168,8 +216,10 @@ class App extends React.Component{
 						? <>
 							<PlayingField 
 								countdown={countdown}
-								countdownActive={countdownActive}
 								virusIcon={virusIcon}
+								roundNr={roundNr}
+								winner={winner}
+								roundWinner={roundWinner}
 							/>
 							<Scoreboard 
 								user={user}
@@ -177,6 +227,7 @@ class App extends React.Component{
 								rounds={rounds}
 								userTimer={userTimer}
 								opponentTimer={opponentTimer}
+								scores={scores}
 							/>
 						</>
 						: <Lobby 
