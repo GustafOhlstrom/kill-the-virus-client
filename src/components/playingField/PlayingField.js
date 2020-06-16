@@ -3,7 +3,7 @@ import './loader.scss'
 import React from 'react'
 
 function PlayingField(props) {
-    const { countdown, virusIcon, winner, roundNr, roundWinner, opponent } = props
+    const { countdown, virusIcon, winner, roundNr, roundWinner, opponent, user, scores } = props
 
     return (
         <section id="playing-field">
@@ -14,7 +14,10 @@ function PlayingField(props) {
                         : winner || roundWinner 
                             ? <div className="next-round">
                                 {winner 
-                                    ? <p>{ winner }</p>
+                                    ? <>
+                                        <p>{ winner }</p>
+                                        <p>{ scores[user.id] + " - " + scores[opponent.id] }</p>
+                                    </>
                                     : <>
                                         <p>{ roundWinner }</p>
                                         <p className="winning-round">Won Round { roundNr + 1 }</p>
