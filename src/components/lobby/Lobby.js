@@ -4,6 +4,7 @@ import React from 'react'
 class Lobby extends React.Component {
     state = {
         username: null,
+        error: null,
     }
 
     handleChange = e => this.setState({ [e.target.id]: e.target.value })
@@ -12,13 +13,18 @@ class Lobby extends React.Component {
         e.preventDefault()
         
         const { username } = this.state
-        this.props.socket.emit('user-register', username, user => {
-            console.log(`Server acknowledged the registration of user: ${username}`);
-            this.props.registerUser(user)
+        this.props.socket.emit('user-register', username, data => {
+            if(data.error) {
+                this.setState({ error: data.error })
+            } else {
+                this.props.registerUser(data)
+            }
 		});
     }
 
     render() {
+        const { error } = this.state
+        
         return (
             <section id="lobby">
                 <form 
@@ -34,6 +40,7 @@ class Lobby extends React.Component {
                             type="text"
                             onChange={this.handleChange}
                         />
+                        <p className="error">{ error }</p>
                     </div>
                 </form>
             </section>
