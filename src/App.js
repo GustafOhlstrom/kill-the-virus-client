@@ -146,9 +146,14 @@ class App extends React.Component{
 		socket.on('round-winner', data => {
 			const { user, opponent } = this.state
 			const { winner, scores } = data
-			winner === user.id
-				? this.setState({ roundWinner: user.name, scores })
-				: this.setState({ roundWinner: opponent.name, scores })
+
+			console.log(winner)
+			
+			// Update score and winner depending on output
+			if(!winner) this.setState({ roundWinner: "Draw", scores })
+			else if(winner === user.id) this.setState({ roundWinner: user.name, scores })
+			else this.setState({ roundWinner: opponent.name, scores })
+
 		})
 
 		// Display winner 

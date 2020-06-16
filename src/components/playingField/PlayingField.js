@@ -20,7 +20,10 @@ function PlayingField(props) {
                                     </>
                                     : <>
                                         <p>{ roundWinner }</p>
-                                        <p className="winning-round">Won Round { roundNr + 1 }</p>
+                                        { roundWinner === "Draw" 
+                                            ? <p className="winning-round">Round { roundNr + 1 }</p>
+                                            : <p className="winning-round">Won Round { roundNr + 1 }</p>
+                                        }
                                     </> 
                                 }
                             </div>
