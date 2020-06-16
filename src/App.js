@@ -169,7 +169,7 @@ class App extends React.Component{
 		if(!virusFound) {
 			const clickTime = new Date().getTime()
 
-			this.setState({ virusFound: true })
+			this.setState({ virusFound: true, virusIcon: null })
 			
 			// Send time taken to click virus to both players
 			socket.emit('click-virus', { clickTime, room } );
