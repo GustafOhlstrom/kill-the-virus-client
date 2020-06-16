@@ -213,6 +213,7 @@ class App extends React.Component{
 								roundNr={roundNr}
 								winner={winner}
 								roundWinner={roundWinner}
+								opponent={opponent}
 							/>
 							<Scoreboard 
 								user={user}
