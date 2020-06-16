@@ -42,6 +42,7 @@ class Lobby extends React.Component {
                         />
                         <p className="error">{ error }</p>
                     </div>
+                    <button>Find Opponent</button>
                 </form>
             </section>
         )
