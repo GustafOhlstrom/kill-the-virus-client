@@ -25,6 +25,7 @@ class App extends React.Component{
 		virusIcon: null,
 		virusFound: null,
 
+		roundTimerId: null,
 		userTimer: "00:00.000",
 		opponentTimer: "00:00.000",
 		
@@ -78,6 +79,7 @@ class App extends React.Component{
 		socket.on('newRound', roundNr => ( 
 			this.setState({ 
 				roundWinner: false,
+				roundTimerId: null,
 				countdown: null, 
 				virusIcon: null, 
 				virusFound: false, 
@@ -100,8 +102,11 @@ class App extends React.Component{
 			
 			// Start timers
 			const timerId = setInterval(() => {
-				const { roundNr, rounds, user, opponent } = this.state
+				const { roundNr, rounds, user, opponent, roundTimerId } = this.state
 				const round = rounds[roundNr]
+				
+				// save timerId in case of a surrender (disconnect)
+				if(!roundTimerId) this.setState({ roundTimerId: timerId })
 				
 				// Format time
 				const time = this.getTimeString(new Date() - startTime)
@@ -146,8 +151,6 @@ class App extends React.Component{
 		socket.on('round-winner', data => {
 			const { user, opponent } = this.state
 			const { winner, scores } = data
-
-			console.log(winner)
 			
 			// Update score and winner depending on output
 			if(!winner) this.setState({ roundWinner: "Draw", scores })
@@ -158,11 +161,18 @@ class App extends React.Component{
 
 		// Display winner 
 		socket.on('winner', winner => {
+			console.log(winner)
 			winner === "Draw"
 				? this.setState({ winner })		
 				: winner === this.state.user.id
 					? this.setState({ winner: "Victory" })
 					: this.setState({ winner: "Defeat" })
+		})
+
+		// Display winner 
+		socket.on('surrender', winner => {
+			clearInterval(this.state.roundTimerId)
+			this.setState({ winner: "Victory by Surrender", countdown: null  })
 		})
 
 		this.setState({ socket })

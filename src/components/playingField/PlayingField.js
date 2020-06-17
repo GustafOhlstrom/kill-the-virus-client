@@ -16,7 +16,7 @@ function PlayingField(props) {
                                 {winner 
                                     ? <>
                                         <p>{ winner }</p>
-                                        <p>{ scores[user.id] + " - " + scores[opponent.id] }</p>
+                                        <p>{ winner !== "Victory by Surrender" && scores && scores[user.id] + " - " + scores[opponent.id] }</p>
                                     </>
                                     : <>
                                         <p>{ roundWinner === "Draw" ? "Draw" : (roundWinner=== user.name ? "You Won" : "You Lost") }</p>
