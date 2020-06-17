@@ -19,11 +19,8 @@ function PlayingField(props) {
                                         <p>{ scores[user.id] + " - " + scores[opponent.id] }</p>
                                     </>
                                     : <>
-                                        <p>{ roundWinner }</p>
-                                        { roundWinner === "Draw" 
-                                            ? <p className="winning-round">Round { roundNr + 1 }</p>
-                                            : <p className="winning-round">Won Round { roundNr + 1 }</p>
-                                        }
+                                        <p>{ roundWinner === "Draw" ? "Draw" : (roundWinner=== user.name ? "You Won" : "You Lost") }</p>
+                                        <p className="winning-round">Round { roundNr + 1 }</p>
                                     </> 
                                 }
                             </div>
