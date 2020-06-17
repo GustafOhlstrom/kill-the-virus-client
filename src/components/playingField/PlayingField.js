@@ -9,7 +9,7 @@ function PlayingField(props) {
     if(opponent) {
         if(countdown) {
             // Display countdown
-            boardContent = <div className="next-round">{ countdown }</div>
+            boardContent = <div className="next-round countdown">{ countdown }</div>
         } else if(winner) {
             // Display game winner
             boardContent = (

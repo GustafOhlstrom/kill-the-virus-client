@@ -7,7 +7,7 @@
     justify-content: center;
     align-items: center;
 
-    width: 70%;
+    width: 100%;
     max-height: 600px;
 
     color: $color1;
@@ -23,11 +23,16 @@
         left: 50%;
         transform: translate(-50%, -50%);
 
-        font-size: 5rem;
+        width: 100%;
+        font-size: 3rem;
 
         .winning-round {
-            font-size: 3rem;
+            font-size: 2rem;
         }
+    }
+
+    .countdown {
+        font-size: 5rem;
     }
 
     .board {
@@ -54,12 +59,26 @@
         }
 
         .waiting-for-opponent {
+            font-size: 1.25rem;
             position: relative;
             top: 50%;
             transform: translateY(-50%);
             
             p {
                 margin-bottom: 1rem;
+            }
+        }
+    }
+
+    @media screen and (min-width: 1200px) { 
+        width: 70%;
+
+        .next-round {
+            font-size: 5rem;
+            width: auto;
+
+            .winning-round {
+                font-size: 3rem;
             }
         }
     }

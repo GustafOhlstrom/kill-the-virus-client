@@ -1,15 +1,24 @@
 @import '../../variables.scss';
 
 #scoreboard {
+    position: absolute;
+
     color: $color1;
     background-color: $bColor2;
-    width: 29%;
-    max-height: 600px;
+    width: 100%;
 
     border-radius: 0.25rem;
 
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out;
+
     h2 {
         padding: 1rem;
+    }
+
+    &.scoreboard-hide {
+        height: 100%;
     }
 
     .timers {
@@ -41,7 +50,7 @@
 
     table {
         width: 100%;
-        padding: 8px;
+        padding: 0 8px 8px 8px;
 
         th,
         td {
@@ -60,6 +69,15 @@
         .round-loss {
             color: $color2;
         }
+    }
 
+    @media screen and (min-width: 1200px) { 
+        position: initial;
+
+        max-height: 600px;
+        width: 29%;
+
+        height: auto;
+        overflow: none;
     }
 }

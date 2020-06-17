@@ -11,29 +11,86 @@ body {
 	font-family: 'Roboto', 'Montserrat', sans-serif;
     text-align: center;
     color: $color1;
-    background-color: $bColor1;
+    background-color: $bColor2;
+}
+
+button {
+    font-family: 'Roboto', 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+
+    padding: 0.5rem 2rem;
+    margin-bottom: 1rem;
+    
+    color: $bColor2;
+    background-color: lighten($borderColor1, $amount: 30);
+    border: 1px solid $borderColor1;
+    border-radius: 0.25rem;
+
+    &:hover {
+        background-color: lighten($borderColor1, $amount: 40);
+        cursor: pointer;
+    }
+
+    &:focus {
+        outline: none;
+    }
 }
 
 #app {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
     display: flex;
     flex-direction: column;
     justify-content: center;
 
-    max-width: 1200px;
-    min-height: 100vh;
-    margin: 0 auto;
-
     .title {
-        background-color: $bColor2;
-        margin-bottom: 1%;
-        padding: 1rem;
-        border-radius: 0.25rem;
+        padding: 1rem 0;
     }
 }
 
 .flex-container {
+    flex-grow: 1;
     display: flex;
     justify-content: space-between;
 }
-	
+
+.scoreboard-toggle {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+@media screen and (min-width: 1200px) { 
+    body {
+        background-color: $bColor1;
+    }
+
+    #app {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    
+        max-width: 1200px;
+        min-height: 100vh;
+        margin: 0 auto;
+    
+        .title {
+            background-color: $bColor2;
+            margin-bottom: 1%;
+            padding: 1rem;
+            border-radius: 0.25rem;
+        }
+    }
+
+    .flex-container {
+        flex-grow: 0;
+    }
+
+    .scoreboard-toggle {
+        display: none;
+    }
+}
+
+
     

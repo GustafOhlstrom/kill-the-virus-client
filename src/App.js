@@ -217,8 +217,13 @@ class App extends React.Component{
 			this.setState({ virusFound: true, virusIcon: null })
 			
 			// Send time taken to click virus to both players
-			socket.emit('click-virus', { clickTime, roomName } );
+			socket.emit('click-virus', { clickTime, roomName } )
 		}
+	}
+
+	// Handle clicking the mobile scoreboard icon to display / hide scoreboard
+	handleScoreboardArrowClick = () => {
+		document.querySelector('#scoreboard').classList.toggle('scoreboard-hide')
 	}
 
 	// Save username
@@ -230,6 +235,15 @@ class App extends React.Component{
 		return (
 			<main id="app">
 				<h1 className="title">Kill The Virus</h1>
+				{ user && 
+					<button
+						class="scoreboard-toggle"
+						onClick={this.handleScoreboardArrowClick}
+					>
+						View Scoreboard
+					</button> 
+				}
+				{/* {user && <button className="scoreboard-button">Scoreboard</button>} */}
 				<div className="flex-container">
 					{user
 						? <>

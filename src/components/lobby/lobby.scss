@@ -8,14 +8,14 @@
     color: $color1;
     background-color: $bColor2;
     width: 100%;
-    height: 600px;
+    // margin: 2rem 0;
 
     border-radius: 0.25rem;
 
     .register {
 
         .username {
-            width: 33%;
+            width: 80%;
             margin: 0 auto;
 
             label {
@@ -50,27 +50,23 @@
                 margin-bottom: 1rem;
             }
         }
+    }
 
-        button {
-            font-family: 'Roboto', 'Montserrat', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-
-            padding: 0.5rem 2rem;
-            margin-bottom: 1rem;
-            
-            color: $bColor2;
-            background-color: lighten($borderColor1, $amount: 30);
-            border: 1px solid $borderColor1;
-            border-radius: 0.25rem;
-
-            &:hover {
-                background-color: lighten($borderColor1, $amount: 40);
-                cursor: pointer;
+    @media screen and (min-width: 768px) { 
+        .register {
+            .username {
+                width: 50%;
             }
+        }
+    }
 
-            &:focus {
-                outline: none;
+    @media screen and (min-width: 1200px) { 
+        height: 600px;
+        margin: 0;
+    
+        .register {
+            .username {
+                width: 33%;
             }
         }
     }
