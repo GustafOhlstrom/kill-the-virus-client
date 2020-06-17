@@ -12,7 +12,7 @@ class App extends React.Component{
 
 	state = {
 		socket: null,
-		room: null,
+		roomName: null,
 
 		user: null,				
 		opponent: null,	
@@ -72,7 +72,7 @@ class App extends React.Component{
 				})
 			}
 
-			this.setState({ opponent, room: data.name, rounds })
+			this.setState({ opponent, roomName: data.name, rounds })
 		})
 
 		// Update base data for new round
@@ -153,9 +153,9 @@ class App extends React.Component{
 			const { winner, scores } = data
 			
 			// Update score and winner depending on output
-			if(!winner) this.setState({ roundWinner: "Draw", scores })
-			else if(winner === user.id) this.setState({ roundWinner: user.name, scores })
-			else this.setState({ roundWinner: opponent.name, scores })
+			if(!winner) this.setState({ roundWinner: "Draw", scores, userTimer: "00:00.000", opponentTimer: "00:00.000" })
+			else if(winner === user.id) this.setState({ roundWinner: user.name, scores, userTimer: "00:00.000", opponentTimer: "00:00.000" })
+			else this.setState({ roundWinner: opponent.name, scores, userTimer: "00:00.000", opponentTimer: "00:00.000" })
 
 		})
 
@@ -180,14 +180,14 @@ class App extends React.Component{
 
 	// Handle clicking on the virus icon
 	handleOnClick = () => {
-		const { socket, room, virusFound } = this.state 
+		const { socket, roomName, virusFound } = this.state 
 		if(!virusFound) {
 			const clickTime = new Date().getTime()
 
 			this.setState({ virusFound: true, virusIcon: null })
 			
 			// Send time taken to click virus to both players
-			socket.emit('click-virus', { clickTime, room } );
+			socket.emit('click-virus', { clickTime, roomName } );
 		}
 	}
 
