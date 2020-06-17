@@ -31,8 +31,12 @@ function Scoreboard(props) {
                     {rounds.map((round, index) => ( 
                         <tr key={ index + 1 }>
                             <th>{ index + 1 }</th>
-                            <td>{ round[user.id] ? round[user.id] : round[1] }</td>
-                            <td>{ round[opponent.id] ? round[opponent.id] : round[2] }</td>
+                            <td className={ round[user.id] < round[opponent.id] ? "round-win" : ((round[user.id] && round[opponent.id]) && "round-loss") }>
+                                { round[user.id] ? round[user.id] : round[1] }
+                            </td>
+                            <td className={ round[opponent.id] < round[user.id] ? "round-win" : ((round[opponent.id] && round[user.id]) && "round-loss") }>
+                                { round[opponent.id] ? round[opponent.id] : round[2] }
+                            </td>
                         </tr>  
                     ))}
                 </tbody>
