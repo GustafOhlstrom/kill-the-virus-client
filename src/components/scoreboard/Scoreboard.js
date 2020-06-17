@@ -3,7 +3,9 @@ import React from 'react'
 
 function Scoreboard(props) {
     let { user, opponent, rounds, userTimer, opponentTimer, scores } = props
-    if(!opponent) opponent = { id: null, name: "..." }
+    if(!opponent) {
+        opponent = { id: null, name: "..." }
+    }
 
     return (
         <section id="scoreboard">
