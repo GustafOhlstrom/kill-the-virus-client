@@ -7,6 +7,8 @@ import Scoreboard from './components/scoreboard/Scoreboard'
 import socketIOClient from 'socket.io-client';
 
 import virusA from './assets/virus-icons/a.svg'
+import virusB from './assets/virus-icons/b.svg'
+import virusC from './assets/virus-icons/c.svg'
 
 class App extends React.Component{
 
@@ -190,10 +192,12 @@ class App extends React.Component{
 
 	// Display virus with cordinates from server
     displayVirus = (top, left) => {
+		// Select random virus icon
+		const randomIcon = [virusA, virusB, virusC][(Math.floor(Math.random() * 3))]
         this.setState({
             virusIcon: <img 
                 className="virus-icon"
-                src={virusA} 
+                src={randomIcon} 
                 alt="kill it" 
                 style={{top: top + "%", left: left + "%"}}
                 onClick={this.handleOnClick}
