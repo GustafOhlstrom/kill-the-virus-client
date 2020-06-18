@@ -1,68 +1,33 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Kill The Virus (Client)
 
-## Available Scripts
+The client version of a 2 player game that test each players reaction time. The players will face off for 10 rounds and each round they need to kill (click) the virus as fast as possible.
 
-In the project directory, you can run:
+Live site at: http://kill-the-virus.gustafohlstrom.se/  
+Project by Gustaf Ohlström
 
-### `npm start`
+### Tech
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The project was built using the [create-react-app](https://create-react-app.dev/) and communcates with the [server](https://github.com/GustafOhlstrom/kill-the-virus-server) using Socket.io.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+All Tech:
+* React
+* `Socket.io`
+* SCSS
+* HTML
+* JSX (JavaScript)
 
-### `npm test`
+### Installation
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone repository to local machine using: https://github.com/GustafOhlstrom/kill-the-virus-client.git
+2. Run npm install
+3. Setup server - two ways 
+    * Clone and install [server repository](https://github.com/GustafOhlstrom/kill-the-virus-server) by following its `README.md` (Recommended for development)
+    * Use the server already up and running and linked in first row of ComponentDidMount() in App.js (Do nothing)
+4. Start client
+   * npm start - run app in development mode
+   * npm build - build react app for production, saves in build folder
+    
 
-### `npm run build`
+### Server
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Server git repository can be found at: https://github.com/GustafOhlstrom/kill-the-virus-server
