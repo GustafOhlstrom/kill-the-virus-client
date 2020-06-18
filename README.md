@@ -7,11 +7,11 @@ Project by Gustaf Ohlström
 
 ### Tech
 
-The project was built using the [create-react-app](https://create-react-app.dev/) and communcates with the [server](https://github.com/GustafOhlstrom/kill-the-virus-server) using Socket.io.
+The project was built using the [create-react-app](https://create-react-app.dev/) and communcates with the [server](https://github.com/GustafOhlstrom/kill-the-virus-server) using [Socket.io](https://socket.io/).
 
 All Tech:
 * React
-* `Socket.io`
+* Socket.io
 * SCSS
 * HTML
 * JSX (JavaScript)
