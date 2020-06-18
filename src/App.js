@@ -46,7 +46,7 @@ class App extends React.Component{
 	}
 
 	componentDidMount() {
-		const socket = socketIOClient('http://localhost:3000');
+		const socket = socketIOClient('https://kill-the-virus-server.herokuapp.com/');
 
 		// Display each countdown number from server
 		socket.on('countdown', countdown => {
@@ -58,7 +58,6 @@ class App extends React.Component{
 		// Display virus icon with coordinates from server and save start time
 		socket.on('display-virus', data => {
 			const { top, left, startTime } = data
-			
 			this.displayVirus(top,left)
 			
 			// Start timers
@@ -72,12 +71,18 @@ class App extends React.Component{
 				}
 				
 				// Format time
-				const time = this.getTimeString(new Date() - startTime)
+				const milliseconds = new Date() - startTime
+				let time = this.getTimeString(milliseconds)
 
 				const playerRound = round[user.id]
 				const opponentRound = round[opponent.id]
 
-			
+				// Stop timer if more that 10 seconds have passed and hide icon , while waiting for server stop
+				if(milliseconds >= 10000) {
+					time = this.getTimeString(10000)
+					this.setState({ virusIcon: null })
+				}
+				
 				if(!playerRound && !opponentRound) {
 					// None done - update both user and opponent
 					this.setState({ userTimer: time, opponentTimer: time })
@@ -91,7 +96,6 @@ class App extends React.Component{
 					// Both done - clear timer
 					clearInterval(timerId)
 				}
-				
 			}, 10);
 		})
 
@@ -241,7 +245,7 @@ class App extends React.Component{
 				<h1 className="title">Kill The Virus</h1>
 				{ user && 
 					<button
-						class="scoreboard-toggle"
+						className="scoreboard-toggle"
 						onClick={this.handleScoreboardArrowClick}
 					>
 						View Scoreboard
