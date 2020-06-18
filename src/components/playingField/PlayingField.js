@@ -3,7 +3,7 @@ import './loader.scss'
 import React from 'react'
 
 function PlayingField(props) {
-    const { countdown, virusIcon, winner, roundNr, roundWinner, opponent, user, scores } = props
+    const { countdown, virusIcon, winner, roundNr, roundWinner, opponent, user, scores, findNewOpponent } = props
 
     let boardContent;
     if(opponent) {
@@ -16,6 +16,7 @@ function PlayingField(props) {
                 <div className="next-round"> 
                     <p>{ winner }</p>
                     <p>{ winner !== "Victory by Surrender" && scores[user.id] + " - " + scores[opponent.id] }</p>  
+                    <button onClick={findNewOpponent} >New Game</button>
                 </div>
             )
         } else if(roundWinner) {

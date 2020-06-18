@@ -10,48 +10,51 @@ import virusA from './assets/virus-icons/a.svg'
 import virusB from './assets/virus-icons/b.svg'
 import virusC from './assets/virus-icons/c.svg'
 
+const initialState = {
+	socket: null,
+	roomName: null,
+
+	user: null,				
+	opponent: null,	
+	
+	winner: null,
+	scores: null,		
+	
+	countdown: null,
+	virusIcon: null,
+	virusFound: null,
+
+	roundTimerId: null,
+	userTimer: "00:00.000",
+	opponentTimer: "00:00.000",
+	
+	roundWinner: false,
+	roundNr: 0,
+	rounds: [
+		{ 1: "", 2: "" },
+		{ 1: "", 2: "" },
+		{ 1: "", 2: "" },
+		{ 1: "", 2: "" },
+		{ 1: "", 2: "" },
+		{ 1: "", 2: "" },
+		{ 1: "", 2: "" },
+		{ 1: "", 2: "" },
+		{ 1: "", 2: "" },
+		{ 1: "", 2: "" },
+	]
+}
+
 class App extends React.Component{
 
-	state = {
-		socket: null,
-		roomName: null,
-
-		user: null,				
-		opponent: null,	
-		
-		winner: null,
-		scores: null,		
-		
-		countdown: null,
-		virusIcon: null,
-		virusFound: null,
-
-		roundTimerId: null,
-		userTimer: "00:00.000",
-		opponentTimer: "00:00.000",
-		
-		roundNr: 0,
-		rounds: [
-			{ 1: "", 2: "" },
-			{ 1: "", 2: "" },
-			{ 1: "", 2: "" },
-			{ 1: "", 2: "" },
-			{ 1: "", 2: "" },
-			{ 1: "", 2: "" },
-			{ 1: "", 2: "" },
-			{ 1: "", 2: "" },
-			{ 1: "", 2: "" },
-			{ 1: "", 2: "" },
-		]
-	}
+	state = initialState
 
 	componentDidMount() {
-		const socket = socketIOClient('https://kill-the-virus-server.herokuapp.com/');
+		const socket = socketIOClient('https://kill-the-virus-server.herokuapp.com');
 
 		// Display each countdown number from server
 		socket.on('countdown', countdown => {
 			countdown === 0 
-				? this.setState({ countdown: null })
+				? this.setState({ countdown: null, userTimer: "00:00.000", opponentTimer: "00:00.000" })
 				: this.setState({ countdown, })
 		})
 
@@ -142,11 +145,11 @@ class App extends React.Component{
 			
 			// Update score and winner depending on output
 			if(!winner) {
-				this.setState({ roundWinner: "Draw", scores, userTimer: "00:00.000", opponentTimer: "00:00.000" })
+				this.setState({ roundWinner: "Draw", scores })
 			} else if(winner === user.id) {
-				this.setState({ roundWinner: user.name, scores, userTimer: "00:00.000", opponentTimer: "00:00.000" })
+				this.setState({ roundWinner: user.name, scores })
 			} else {
-				this.setState({ roundWinner: opponent.name, scores, userTimer: "00:00.000", opponentTimer: "00:00.000" })
+				this.setState({ roundWinner: opponent.name, scores })
 			}
 
 		})
@@ -209,6 +212,18 @@ class App extends React.Component{
         })
 	}
 
+	// Reset state and start looking for a new opponent for a new game
+	findNewOpponent = () => {
+		const { user, socket } = this.state
+		// Re-register user to server and create new state with that user
+		socket.emit('find-new-opponent', user.name, user => {
+			const newState = initialState
+			newState.user = user
+			newState.socket = socket
+			this.setState(initialState)
+		});
+	}
+
 	// Returns formated time string
 	getTimeString = time => (
 		("0" + Math.floor((time / (1000 * 60)) % 60)).slice(-2) + ":" +
@@ -264,6 +279,7 @@ class App extends React.Component{
 								opponent={opponent}
 								user={user}
 								scores={scores}
+								findNewOpponent={this.findNewOpponent}
 							/>
 							<Scoreboard 
 								user={user}
