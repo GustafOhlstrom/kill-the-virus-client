@@ -10,6 +10,8 @@ import virusA from './assets/virus-icons/a.svg'
 import virusB from './assets/virus-icons/b.svg'
 import virusC from './assets/virus-icons/c.svg'
 
+import virusSound from './assets/sounds/plop.flac'
+
 const initialState = {
 	socket: null,
 	roomName: null,
@@ -236,6 +238,9 @@ class App extends React.Component{
 		const { socket, roomName, virusFound } = this.state 
 		if(!virusFound) {
 			const clickTime = new Date().getTime()
+
+			// Play sound
+			new Audio(virusSound).play()
 
 			this.setState({ virusFound: true, virusIcon: null })
 			
